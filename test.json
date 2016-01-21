@@ -1,0 +1,12 @@
+rte_geo({
+  "country": "HU",
+  "region": "BU",
+  "conSpeed": "CO",
+  "dma": "000",
+  "city": "BUDAPEST",
+  "areaCode": "0",
+  "mailCode": "XX",
+  "id": "6553512341",
+  "tzDiff": "3600",
+  "isp": "XX"
+});
