@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Time based demo</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="test.css">
+  <style></style>/
+ <script>
+ $(document).ready(function(){
+   $("button").click(function(){
+      $('html').each(function(){
+          var classes = ['day','sunset','night'];
+          this.className = classes[($.inArray(this.className,classes)+1)%classes.length];
+      });
+   });
+
+
+ });
+</script>
+  
+
+</head>
+<body>
+<div class="background">
+  <div class="header">
+      <h1> Background based on time of Day</h1>
+      <button >Toggle </button>
+      
+  </div>
+
+  </div>
+
+</body>
+</html>

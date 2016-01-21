@@ -1,5 +1,4 @@
-$(document).ready(getLocation)
-
+$(document).ready(getLocation);
 
 
 
@@ -11,13 +10,14 @@ function getLocation(){
 			var displayData = $('#displayData');
 			var crd = pos.coords;
 			var times = SunCalc.getTimes(new Date(),crd.latitude,crd.longitude);
-			console.log("times dusk " + times.dusk);
+			
+			console.log("times dusk " + (times.dusk.getHours() % 12 || 12) +":" + times.dusk.getMinutes() + " pm");
 			
 
-			displayData.html("times dusk " + (times.sunset.getHours() % 12 || 12 )+ " pm");
+			//displayData.html("times dusk " + (times.sunset.getHours() % 12 || 12 )+ " pm");
 
 			var sunriseStr =  times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
-			console.log(sunriseStr);
+			console.log("Sunrise time for : " + crd.latitude + " " + crd.longitude + " " + sunriseStr);
 			
 			var moonInfo= SunCalc.getMoonIllumination(new Date());
 			var moonPhase = moonInfo.phase;
@@ -53,8 +53,6 @@ function findMoonPhase(moonPhs){
 		}else if( moonPhs >= 0.75 && moonPhs <= 1.00){
 			moonPhStr ="Waning Crescent";
 		}
-
-
 
 		return moonPhStr;
 }
