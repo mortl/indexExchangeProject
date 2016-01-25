@@ -1,15 +1,11 @@
 $(document).ready(function() {
 
-    // changeBackground();
-    //getLocation();
+    var debug = false;
 
-    //changeColor();
-    updateBackground();
+
+    updateBackground(debug);
     displayMoonPhase();
 
-    //get datePicker
-    
-    // $('#datepicker').datepicker({ dateFormat:"dd M, y"});
 
 });
 
@@ -21,7 +17,7 @@ $(document).ready(function() {
 //-----------------------------------------------------//
 
 
-function updateBackground() {
+function updateBackground(debug) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(pos) {
 
@@ -35,6 +31,10 @@ function updateBackground() {
 
             var nightInfo = times.nightTwilight;
 
+
+
+            //display debugging information.
+            if(debug == true){
         
             console.log("times dusk " + formatTime(times.dusk, true));
             console.log("sunset start " + formatTime(times.sunset.start, true))
@@ -45,6 +45,15 @@ function updateBackground() {
             console.log("noon " + formatTime(times.transit, true));
             console.log("dusk " + formatTime(times.dusk));
 
+            console.log("Dusk: " + dusk);
+            console.log("Sunset : " + sunset);
+
+            console.log("sunrise start: " + sunriseStart);
+            console.log("sunrise end " + sunriseEnd);
+            console.log("night start " + nightStart);
+            console.log("morningStart: " + morningStart);
+            console.log("morning end " + morningEnd);
+        }
 
 
 
@@ -56,15 +65,8 @@ function updateBackground() {
             var nightStart = nightInfo.astronomical.start.getHours();
             
             var sunset = times.sunset.end.getHours();
-            var dusk = times.dusk.getHours();
-
-            
-
-            console.log("sunrise start: " + sunriseStart);
-            console.log("sunrise end " + sunriseEnd);
-            console.log("night start " + nightStart);
-            console.log("morningStart: " + morningStart);
-            console.log("morning end " + morningEnd);
+            var dusk = times.dusk.getHours() + 1;
+           
             
            
 
@@ -79,10 +81,14 @@ function updateBackground() {
             if (noon <= currentTime && currentTime < sunset) {
                 $("html").addClass("day");
             }
-            if (sunset <= currentTime && currentTime < dusk) {
+            if (currentTime <= sunset && currentTime < dusk) {
+
+                console.log("current time in sunset if " + currentTime);
                 $("html").addClass("sunset");
             }
             if (dusk <= currentTime && currentTime <= 0) {
+
+
                 $("html").addClass("night");
             }
 
