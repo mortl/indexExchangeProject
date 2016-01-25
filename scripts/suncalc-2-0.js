@@ -186,6 +186,11 @@ SunCalc2 = (function() {
 			return getSunPosition( dateToJulianDate(date), -lng * deg2rad, lat * deg2rad );
 		}
 	};
+
+
+
+
+	
 })();
 
 /* 

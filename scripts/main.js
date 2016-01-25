@@ -1,59 +1,110 @@
 $(document).ready(function() {
 
-    changeBackground();
-    getLocation();
-   
-   //get datePicker
-   $('#datepicker').datepicker();
+    // changeBackground();
+    //getLocation();
+
+    //changeColor();
+    updateBackground();
+    displayMoonPhase();
+
+    //get datePicker
+    
+    // $('#datepicker').datepicker({ dateFormat:"dd M, y"});
 
 });
 
 
-//UI related functions //
- function changeBackground () {
-    $("button").click(function() {
-        $('html').each(function() {
-            var classes = ['day', 'sunset', 'night'];
-            this.className = classes[($.inArray(this.className, classes) + 1) % classes.length];
-        });
-    });
-}
+
 
 
 
 //-----------------------------------------------------//
 
 
- function getLocation() {
+function updateBackground() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(pos) {
-            var displayData = $('#displayData');
+
             var crd = pos.coords;
-            var times = SunCalc.getTimes(new Date(), crd.latitude, crd.longitude);
 
+            //This is the modified
+            var times = SunCalc2.getDayInfo(new Date(), crd.latitude, crd.longitude, true);
+
+
+            var morningInfo = times.morningTwilight;
+
+            var nightInfo = times.nightTwilight;
+
+        
             console.log("times dusk " + formatTime(times.dusk, true));
+            console.log("sunset start " + formatTime(times.sunset.start, true))
+            console.log("sunset " + formatTime(times.sunset.end, true));
+            console.log("sunrise " + formatTime(times.sunrise.start, true));
+            console.log("sunrise end " + formatTime(times.sunrise.end, true));
+            console.log("dawn " + formatTime(times.dawn));
+            console.log("noon " + formatTime(times.transit, true));
+            console.log("dusk " + formatTime(times.dusk));
 
 
-            //displayData.html("times dusk " + (times.sunset.getHours() % 12 || 12 )+ " pm");
-            console.log("Formated time: " + formatTime(times.sunrise, true));
-            console.log("\n");
 
 
-            console.log("Sunrise time for : " + crd.latitude + " " + crd.longitude + " " + formatTime(times.sunrise, true));
+            var morningStart = morningInfo.astronomical.start.getHours();
+            var morningEnd = morningInfo.civil.end.getHours();
+            var noon = times.transit.getHours();
+            var sunriseStart = times.sunrise.start.getHours();
+            var sunriseEnd = times.sunrise.end.getHours();
+            var nightStart = nightInfo.astronomical.start.getHours();
+            
+            var sunset = times.sunset.end.getHours();
+            var dusk = times.dusk.getHours();
 
-            var moonInfo = SunCalc.getMoonIllumination(new Date());
-            var moonPhase = moonInfo.phase;
-            var moonText = findMoonPhase(moonPhase);
+            
 
-            console.log("Current Moon Phase (as text): " + moonText);
-            console.log("Test for above 0.26 :" + findMoonPhase(0.26));
-            console.log("Test for above 0.40 :" + findMoonPhase(0.50));
-            console.log("Test for above 0.75 :" + findMoonPhase(1.00));
-            console.log("Current Moon Phase:(between 0 - 1): " + moonPhase);
+            console.log("sunrise start: " + sunriseStart);
+            console.log("sunrise end " + sunriseEnd);
+            console.log("night start " + nightStart);
+            console.log("morningStart: " + morningStart);
+            console.log("morning end " + morningEnd);
+            
+           
+
+
+            var currentTime = new Date().getHours();
+            if (0 <= currentTime && currentTime < morningStart) {
+                $("html").addClass("dawn");
+            }
+            if (morningStart <= currentTime && currentTime < noon) {
+                $("html").addClass('sunrise')
+            }
+            if (noon <= currentTime && currentTime < sunset) {
+                $("html").addClass("day");
+            }
+            if (sunset <= currentTime && currentTime < dusk) {
+                $("html").addClass("sunset");
+            }
+            if (dusk <= currentTime && currentTime <= 0) {
+                $("html").addClass("night");
+            }
+
+
 
         });
     }
 
+}
+
+function displayMoonPhase() {
+
+    var moonInfo = SunCalc.getMoonIllumination(new Date());
+    var moonPhase = moonInfo.phase;
+    var moonText = findMoonPhase(moonPhase);
+
+    console.log("Current Moon Phase (as text): " + moonText);
+    //console.log("Test for above 0.26 :" + findMoonPhase(0.26));
+    //console.log("Test for above 0.40 :" + findMoonPhase(0.50));
+    //console.log("Test for above 0.75 :" + findMoonPhase(1.00));
+    console.log("Current Moon Phase:(between 0 - 1): " + moonPhase);
+    $('.moonPhase').html("Current moon phase: " + moonText);
 }
 
 function findMoonPhase(moonPhs) {
@@ -103,3 +154,6 @@ function formatTime(date, postfix) {
 
     return hours + ':' + minutes + (postfix ? ' ' + ap : '');
 }
+
+
+
