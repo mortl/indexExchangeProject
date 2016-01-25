@@ -23,12 +23,15 @@ function updateBackground(debug) {
 
             var crd = pos.coords;
 
-            //This is the modified
+            //This is the modified Suncalc which I found on Suncalc.net
+            //I used this version to determine the times of the sun because it was better optimized then the original version.
+
             var times = SunCalc2.getDayInfo(new Date(), crd.latitude, crd.longitude, true);
 
-
+            //Get the morningTwilight object to retrieve data on the various morning hours.
             var morningInfo = times.morningTwilight;
 
+            //Get the nightTwilight object to retreive data on various night hours.
             var nightInfo = times.nightTwilight;
 
 
@@ -65,13 +68,14 @@ function updateBackground(debug) {
             var nightStart = nightInfo.astronomical.start.getHours();
             
             var sunset = times.sunset.end.getHours();
-            var dusk = times.dusk.getHours() + 1;
+            var dusk = times.dusk.getHours();
            
             
            
 
 
             var currentTime = new Date().getHours();
+          
             if (0 <= currentTime && currentTime < morningStart) {
                 $("html").addClass("dawn");
             }
@@ -81,15 +85,14 @@ function updateBackground(debug) {
             if (noon <= currentTime && currentTime < sunset) {
                 $("html").addClass("day");
             }
-            if (currentTime <= sunset && currentTime < dusk) {
-
-                console.log("current time in sunset if " + currentTime);
+            if (currentTime <= sunset && currentTime < dusk + 1) {
+               
                 $("html").addClass("sunset");
             }
-            if (dusk <= currentTime && currentTime <= 0) {
-
-
+            if (currentTime > dusk || currentTime <= 0) {
+            
                 $("html").addClass("night");
+                
             }
 
 
