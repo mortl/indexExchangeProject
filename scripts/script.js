@@ -1,8 +1,6 @@
 $(document).ready(getLocation);
 
 
-
-
 function getLocation(){
 	if(navigator.geolocation)
 	{
@@ -15,6 +13,8 @@ function getLocation(){
 			
 
 			//displayData.html("times dusk " + (times.sunset.getHours() % 12 || 12 )+ " pm");
+			console.log("Formated time: " + formatTime(times.sunrise,true));
+      console.log("\n");
 
 			var sunriseStr =  times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
 			console.log("Sunrise time for : " + crd.latitude + " " + crd.longitude + " " + sunriseStr);
@@ -58,3 +58,22 @@ function findMoonPhase(moonPhs){
 }
 
 
+function formatTime(date, postfix) {
+		if (isNaN(date)) { return '&nbsp;&nbsp;n/a&nbsp;&nbsp;'; }
+	
+		var hours = date.getHours(),
+			minutes = date.getMinutes(),
+			ap;
+			
+		if (postfix) {
+			ap = (hours < 12 ? 'am' : 'pm');
+			if (hours == 0) { hours = 12; }
+			if (hours > 12) { hours -= 12; }
+		} else {
+			hours = (hours < 10 ? '0' + hours : '' + hours);
+		}
+		
+		minutes = (minutes < 10 ? '0' + minutes : '' + minutes);
+		
+		return hours + ':' + minutes + (postfix ? ' ' + ap : '');
+	}

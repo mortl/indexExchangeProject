@@ -3,20 +3,14 @@
 <head>
   <title>Time based demo</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <link rel="stylesheet" href="test.css">
-  <style></style>/
- <script>
- $(document).ready(function(){
-   $("button").click(function(){
-      $('html').each(function(){
-          var classes = ['day','sunset','night'];
-          this.className = classes[($.inArray(this.className,classes)+1)%classes.length];
-      });
-   });
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+ 
+  
+  <link rel="stylesheet" href="../styles/test.css">
+  <script src="../scripts/suncalc.js"></script>
+  <script src="../scripts/main.js"></script> 
 
-
- });
-</script>
+ 
   
 
 </head>
@@ -25,7 +19,9 @@
   <div class="header">
       <h1> Background based on time of Day</h1>
       <button >Toggle </button>
-      
+      <br>
+
+      <p>Date: <input type="text" id="datepicker"/></p>
   </div>
 
   </div>

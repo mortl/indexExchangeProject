@@ -17,6 +17,6 @@ html{
 }
 
 /* backgrounds */
-.day { background-image: url('images/torontoNoon.jpg'); }
-.sunset { background-image: url('images/torontoSunset.jpg'); }
-.night { background-image: url('images/torontoNight.jpg'); }
+.day { background-image: url('../images/torontoNoon.jpg'); }
+.sunset { background-image: url('../images/torontoSunset.jpg'); }
+.night { background-image: url('../images/torontoNight.jpg'); }
